@@ -1,6 +1,7 @@
 import requests
 import datetime as dt
 import telebot as tb
+import re
 
 api_token = ''
 bot = tb.TeleBot(api_token)
@@ -64,9 +65,19 @@ def show_start_message(message):
     keyboard = tb.types.ReplyKeyboardMarkup()
 
     for i in currencies.keys():
-        button_label = '{0} {1} ({2}) {0}\n'.format(currencies[i]['Unicode'], currencies[i]['Name'], i)
+        button_label = '{0} {1} ({2}) {0}'.format(currencies[i]['Unicode'], currencies[i]['Name'], i)
         keyboard.row(tb.types.KeyboardButton(button_label))
 
     bot.send_message(message.chat.id, 'Hello', reply_markup=keyboard)
+
+currencies_regex = '(DKK)|(NOK)|(SEK)|(USD)|(AUD)|(CAD)|(EUR)|(CHF)|(JPY)|(GBP)'
+
+@bot.message_handler(regexp=currencies_regex)
+def show_currency_report(message):
+    currency = re.search(currencies_regex, message.text.upper()).group(0)
+
+    report = get_latest_report(currency)
+
+    bot.send_message(message.chat.id, format_report(report, currency))
 
 bot.infinity_polling()
