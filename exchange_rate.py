@@ -21,14 +21,14 @@ def get_latest_report(currency):
 def format_money(money):
     return 'R$ ' + str(round(money, 2)).replace('.', ',').ljust(4, '0')
 
-def format_datetime(datetime):
+def format_date(datetime):
     date = dt.date.fromisoformat(datetime[:10])
 
-    return datetime[11:16] + date.strftime(', %d/%m/%y')
+    return date.strftime('%d/%m/%Y')
 
 def format_report_item(item):
-    str_item = '\n' + item['tipoBoletim']
-    str_item += ' - ' + format_datetime(item['dataHoraCotacao'])
+    str_item = '\n\n' + item['tipoBoletim']
+    str_item += ' - ' + item['dataHoraCotacao'][11:16]
     str_item += '\nCotação de Compra: ' + format_money(item['cotacaoCompra'])
     str_item += '\nCotação de Venda: ' + format_money(item['cotacaoVenda'])
 
@@ -36,5 +36,10 @@ def format_report_item(item):
 
 report = get_latest_report('USD')
 
+text = '\U0001F1FA\U0001F1F8 Dólar americano \U0001F1FA\U0001F1F8\n'
+text += 'Data: ' + format_date(report[0]['dataHoraCotacao'])
+
 for i in report:
-    print(format_report_item(i))
+    text += format_report_item(i)
+
+print(text)
