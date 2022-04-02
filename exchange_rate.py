@@ -18,5 +18,8 @@ def get_latest_report(currency):
 
     return rates
 
-print(get_latest_report('USD'))
-print(get_latest_report('EUR'))
+def format_money(money):
+    return 'R$ ' + str(round(money, 2)).replace('.', ',').ljust(4, '0')
+
+print(format_money(get_latest_report('USD')[0]['cotacaoCompra']))
+print(format_money(get_latest_report('EUR')[0]['cotacaoCompra']))
