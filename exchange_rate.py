@@ -34,6 +34,15 @@ def format_report_item(item):
 
     return str_item
 
+def format_report(report, currency):
+    str_report = '{0} {1} {0}\n'.format(currencies[currency]['Unicode'], currencies[currency]['Name'])
+    str_report += 'Data: ' + format_date(report[0]['dataHoraCotacao'])
+
+    for i in report:
+        str_report += format_report_item(i)
+
+    return str_report
+
 currencies = {}
 currencies['DKK'] = {'Unicode': '\U0001F1E9\U0001F1EF', 'Name': 'Coroa Dinamarquesa'}
 currencies['NOK'] = {'Unicode': '\U0001F1F3\U0001F1F4', 'Name': 'Coroa Norueguesa'}
@@ -47,5 +56,6 @@ currencies['JPY'] = {'Unicode': '\U0001F1EF\U0001F1F5', 'Name': 'Iene'}
 currencies['GBP'] = {'Unicode': '\U0001F1EC\U0001F1E7', 'Name': 'Libra Esterlina'}
 
 for i in currencies.keys():
-    print(currencies[i]['Name'])
-    print(get_latest_report(i))
+    report = get_latest_report(i)
+    print(format_report(report, i))
+    print()
