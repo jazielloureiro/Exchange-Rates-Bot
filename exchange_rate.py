@@ -26,5 +26,15 @@ def format_datetime(datetime):
 
     return datetime[11:16] + date.strftime(', %d/%m/%y')
 
-print(format_datetime(get_latest_report('USD')[0]['dataHoraCotacao']))
-print(format_datetime(get_latest_report('EUR')[0]['dataHoraCotacao']))
+def format_report_item(item):
+    str_item = '\n' + item['tipoBoletim']
+    str_item += ' - ' + format_datetime(item['dataHoraCotacao'])
+    str_item += '\nCotação de Compra: ' + format_money(item['cotacaoCompra'])
+    str_item += '\nCotação de Venda: ' + format_money(item['cotacaoVenda'])
+
+    return str_item
+
+report = get_latest_report('USD')
+
+for i in report:
+    print(format_report_item(i))
