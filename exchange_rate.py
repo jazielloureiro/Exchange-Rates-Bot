@@ -21,5 +21,10 @@ def get_latest_report(currency):
 def format_money(money):
     return 'R$ ' + str(round(money, 2)).replace('.', ',').ljust(4, '0')
 
-print(format_money(get_latest_report('USD')[0]['cotacaoCompra']))
-print(format_money(get_latest_report('EUR')[0]['cotacaoCompra']))
+def format_datetime(datetime):
+    date = dt.date.fromisoformat(datetime[:10])
+
+    return datetime[11:16] + date.strftime(', %d/%m/%y')
+
+print(format_datetime(get_latest_report('USD')[0]['dataHoraCotacao']))
+print(format_datetime(get_latest_report('EUR')[0]['dataHoraCotacao']))
