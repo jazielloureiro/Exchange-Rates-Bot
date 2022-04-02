@@ -34,12 +34,18 @@ def format_report_item(item):
 
     return str_item
 
-report = get_latest_report('USD')
+currencies = {}
+currencies['DKK'] = {'Unicode': '\U0001F1E9\U0001F1EF', 'Name': 'Coroa Dinamarquesa'}
+currencies['NOK'] = {'Unicode': '\U0001F1F3\U0001F1F4', 'Name': 'Coroa Norueguesa'}
+currencies['SEK'] = {'Unicode': '\U0001F1F8\U0001F1EA', 'Name': 'Coroa Sueca'}
+currencies['USD'] = {'Unicode': '\U0001F1FA\U0001F1F8', 'Name': 'Dólar Americano'}
+currencies['AUD'] = {'Unicode': '\U0001F1E6\U0001F1FA', 'Name': 'Dólar Australiano'}
+currencies['CAD'] = {'Unicode': '\U0001F1E8\U0001F1E6', 'Name': 'Dólar Canadense'}
+currencies['EUR'] = {'Unicode': '\U0001F1EA\U0001F1FA', 'Name': 'Euro'}
+currencies['CHF'] = {'Unicode': '\U0001F1E8\U0001F1ED', 'Name': 'Franco Suíço'}
+currencies['JPY'] = {'Unicode': '\U0001F1EF\U0001F1F5', 'Name': 'Iene'}
+currencies['GBP'] = {'Unicode': '\U0001F1EC\U0001F1E7', 'Name': 'Libra Esterlina'}
 
-text = '\U0001F1FA\U0001F1F8 Dólar americano \U0001F1FA\U0001F1F8\n'
-text += 'Data: ' + format_date(report[0]['dataHoraCotacao'])
-
-for i in report:
-    text += format_report_item(i)
-
-print(text)
+for i in currencies.keys():
+    print(currencies[i]['Name'])
+    print(get_latest_report(i))
