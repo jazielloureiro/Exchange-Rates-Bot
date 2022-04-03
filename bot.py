@@ -19,6 +19,8 @@ currencies['CHF'] = {'Unicode': '\U0001F1E8\U0001F1ED', 'Name': 'Franco Suíço'
 currencies['JPY'] = {'Unicode': '\U0001F1EF\U0001F1F5', 'Name': 'Iene'}
 currencies['GBP'] = {'Unicode': '\U0001F1EC\U0001F1E7', 'Name': 'Libra Esterlina'}
 
+currencies_regex = '(DKK)|(NOK)|(SEK)|(USD)|(AUD)|(CAD)|(EUR)|(CHF)|(JPY)|(GBP)'
+
 def get_exchange_rates(currency, date):
     api_url = 'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda=\'{}\'&@dataCotacao=\'{}\'&$top=10&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao,tipoBoletim'
 
@@ -77,8 +79,6 @@ Escolha uma moeda para consultar.\
 
     bot.send_message(message.chat.id, start_msg, reply_markup=keyboard)
 
-currencies_regex = '(DKK)|(NOK)|(SEK)|(USD)|(AUD)|(CAD)|(EUR)|(CHF)|(JPY)|(GBP)'
-
 @bot.message_handler(regexp=currencies_regex)
 def show_currency_report(message):
     currency = re.search(currencies_regex, message.text.upper()).group(0)
@@ -86,5 +86,14 @@ def show_currency_report(message):
     report = get_latest_report(currency)
 
     bot.send_message(message.chat.id, format_report(report, currency))
+
+@bot.message_handler(func=lambda message: True)
+def show_error_message(message):
+    error_msg = '''\
+Desculpe, não consegui reconhecer a sua entrada.
+Tente usar o menu da próxima vez.
+'''
+
+    bot.send_message(message.chat.id, error_msg)
 
 bot.infinity_polling()
