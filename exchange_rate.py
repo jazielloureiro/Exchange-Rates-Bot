@@ -1,9 +1,10 @@
 import requests
 import datetime as dt
 import telebot as tb
+import os
 import re
 
-api_token = ''
+api_token = os.environ.get('TELEGRAM_BOT')
 bot = tb.TeleBot(api_token)
 
 currencies = {}
