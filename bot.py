@@ -69,7 +69,13 @@ def show_start_message(message):
         button_label = '{0} {1} ({2}) {0}'.format(currencies[i]['Unicode'], currencies[i]['Name'], i)
         keyboard.row(tb.types.KeyboardButton(button_label))
 
-    bot.send_message(message.chat.id, 'Hello', reply_markup=keyboard)
+    start_msg = '''\
+Olá, seja bem-vindo ao Beija-flor.\
+ O bot de consulta à taxas de câmbio do Telegram.
+Escolha uma moeda para consultar.\
+'''
+
+    bot.send_message(message.chat.id, start_msg, reply_markup=keyboard)
 
 currencies_regex = '(DKK)|(NOK)|(SEK)|(USD)|(AUD)|(CAD)|(EUR)|(CHF)|(JPY)|(GBP)'
 
