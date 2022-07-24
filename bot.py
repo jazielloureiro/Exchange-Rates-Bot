@@ -71,11 +71,7 @@ def show_start_message(message):
         button_label = '{0} {1} ({2}) {0}'.format(currencies[i]['Unicode'], currencies[i]['Name'], i)
         keyboard.row(tb.types.KeyboardButton(button_label))
 
-    start_msg = '''\
-Olá, seja bem-vindo ao Beija-flor.\
- O bot de consulta à taxas de câmbio do Telegram.
-Escolha uma moeda para consultar.\
-'''
+    start_msg = 'Olá, seja bem-vindo ao Beija-flor. O bot de consulta à taxas de câmbio do Telegram. Escolha uma moeda para consultar.'
 
     bot.send_message(message.chat.id, start_msg, reply_markup=keyboard)
 
@@ -89,10 +85,7 @@ def show_currency_report(message):
 
 @bot.message_handler(func=lambda message: True)
 def show_error_message(message):
-    error_msg = '''\
-Desculpe, não consegui reconhecer a sua entrada.
-Tente usar o menu da próxima vez.
-'''
+    error_msg = 'Desculpe, não consegui reconhecer a sua entrada. Tente usar o menu da próxima vez.'
 
     bot.send_message(message.chat.id, error_msg)
 
