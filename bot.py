@@ -3,8 +3,11 @@ import datetime as dt
 import telebot as tb
 import os
 import re
+import dotenv
 
-api_token = os.environ.get('TELEGRAM_BOT')
+dotenv.load_dotenv()
+
+api_token = os.environ.get('BOT_TOKEN')
 bot = tb.TeleBot(api_token)
 
 currencies = {}
