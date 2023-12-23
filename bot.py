@@ -1,3 +1,4 @@
+import json
 import requests
 import datetime as dt
 import telebot as tb
@@ -7,8 +8,7 @@ import dotenv
 
 dotenv.load_dotenv()
 
-api_token = os.environ.get('BOT_TOKEN')
-bot = tb.TeleBot(api_token)
+bot = tb.TeleBot(os.getenv('BOT_TOKEN'), threaded=False)
 
 currencies = {}
 currencies['DKK'] = {'Unicode': '\U0001F1E9\U0001F1F0', 'Name': 'Coroa Dinamarquesa'}
@@ -23,6 +23,20 @@ currencies['JPY'] = {'Unicode': '\U0001F1EF\U0001F1F5', 'Name': 'Iene'}
 currencies['GBP'] = {'Unicode': '\U0001F1EC\U0001F1E7', 'Name': 'Libra Esterlina'}
 
 currencies_regex = '(DKK)|(NOK)|(SEK)|(USD)|(AUD)|(CAD)|(EUR)|(CHF)|(JPY)|(GBP)'
+
+def lambda_handler(event, context):
+    request_body = json.loads(event['body'])
+
+    updates = tb.types.Update.de_json(request_body)
+
+    try:
+        bot.process_new_updates([updates])
+    except Exception as e:
+        print(e)
+
+    return {
+        'statusCode': 200
+    }
 
 def get_exchange_rates(currency, date):
     api_url = 'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda=\'{}\'&@dataCotacao=\'{}\'&$top=10&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao,tipoBoletim'
@@ -92,4 +106,5 @@ def show_error_message(message):
 
     bot.send_message(message.chat.id, error_msg)
 
-bot.infinity_polling()
+if __name__ == '__main__':
+    bot.infinity_polling()
