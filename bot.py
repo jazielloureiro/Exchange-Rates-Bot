@@ -1,4 +1,3 @@
-import json
 import requests
 import datetime as dt
 import telebot as tb
@@ -8,7 +7,7 @@ import dotenv
 
 dotenv.load_dotenv()
 
-bot = tb.TeleBot(os.getenv('BOT_TOKEN'), threaded=False)
+bot = tb.TeleBot(os.getenv('BOT_TOKEN'))
 
 currencies = {}
 currencies['DKK'] = {'Unicode': '\U0001F1E9\U0001F1F0', 'Name': 'Coroa Dinamarquesa'}
