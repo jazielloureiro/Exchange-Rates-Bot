@@ -24,20 +24,6 @@ currencies['GBP'] = {'Unicode': '\U0001F1EC\U0001F1E7', 'Name': 'Libra Esterlina
 
 currencies_regex = '(DKK)|(NOK)|(SEK)|(USD)|(AUD)|(CAD)|(EUR)|(CHF)|(JPY)|(GBP)'
 
-def lambda_handler(event, context):
-    request_body = json.loads(event['body'])
-
-    updates = tb.types.Update.de_json(request_body)
-
-    try:
-        bot.process_new_updates([updates])
-    except Exception as e:
-        print(e)
-
-    return {
-        'statusCode': 200
-    }
-
 def get_exchange_rates(currency, date):
     api_url = 'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda=\'{}\'&@dataCotacao=\'{}\'&$top=10&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao,tipoBoletim'
 
