@@ -1,4 +1,4 @@
-FROM python:3.9-bullseye
+FROM python:3.12-bullseye
 
 WORKDIR /app
 
@@ -6,6 +6,6 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY bot.py .
+COPY *.py .
 
-CMD [ "python", "bot.py" ]
+CMD [ "gunicorn", "server:app", "-b=0.0.0.0" ]
